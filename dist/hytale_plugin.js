@@ -886,7 +886,7 @@
   }
   function setupNameOverlap() {
     Blockbench.on("finish_edit", (arg) => {
-      if (arg.aspects.keyframes && Animation.selected) {
+      if (isHytaleFormat() && arg.aspects.keyframes && Animation.selected) {
         let changes = false;
         let groups = {};
         if (Timeline.selected_animator) {
@@ -3396,7 +3396,7 @@ body.hytale-uv-outline-only #uv_frame .selection_rectangle {
       const axis = Transformer?.axis;
       const hasSelection = Outliner.selected.length > 0 || Group.all.some((g) => g.selected);
       const isTransformTool = Toolbox.selected?.id === "move_tool" || Toolbox.selected?.id === "rotate_tool";
-      if (!axis || !hasSelection || !isTransformTool) return;
+      if (!axis || !hasSelection || !isTransformTool || !Modes.edit) return;
       if (isModifierPressed(event)) {
         event.stopImmediatePropagation();
         if (!performDuplicationForCombinedUndo(true)) return;
@@ -3423,7 +3423,7 @@ body.hytale-uv-outline-only #uv_frame .selection_rectangle {
     function onKeyDown(event) {
       if (!isDragging || !isModifierKey(event) || modifierWasPressed) return;
       const isTransformTool = Toolbox.selected?.id === "move_tool" || Toolbox.selected?.id === "rotate_tool";
-      if (!isTransformTool) return;
+      if (!isTransformTool || !Modes.edit) return;
       modifierWasPressed = true;
       const shouldInitEdit = isCombinedUndoActive;
       if (isCombinedUndoActive) finishCombinedUndo();

@@ -121,7 +121,7 @@ export function setupAltDuplicate() {
         const hasSelection = Outliner.selected.length > 0 || Group.all.some(g => g.selected);
         const isTransformTool = Toolbox.selected?.id === 'move_tool' || Toolbox.selected?.id === 'rotate_tool';
 
-        if (!axis || !hasSelection || !isTransformTool) return;
+        if (!axis || !hasSelection || !isTransformTool || !Modes.edit) return;
 
         if (isModifierPressed(event)) {
             event.stopImmediatePropagation();
@@ -153,7 +153,7 @@ export function setupAltDuplicate() {
     function onKeyDown(event: KeyboardEvent) {
         if (!isDragging || !isModifierKey(event) || modifierWasPressed) return;
         const isTransformTool = Toolbox.selected?.id === 'move_tool' || Toolbox.selected?.id === 'rotate_tool';
-        if (!isTransformTool) return;
+        if (!isTransformTool || !Modes.edit) return;
 
         modifierWasPressed = true;
 
