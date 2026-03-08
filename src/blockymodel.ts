@@ -387,6 +387,8 @@ export function setupBlockymodelCodec(): Codec {
 					return center_pos;
 				} else if (include_original_offset) {
 					return group.original_offset;
+				} else {
+					return [0, 0, 0];
 				}
 			}
 
