@@ -983,6 +983,7 @@
       let uuid = group ? group.uuid : guid();
       let ba = new BoneAnimator(uuid, animation, group_name);
       animation.animators[uuid] = ba;
+      ba.group = group;
       const anim_channels = [
         { channel: "rotation", keyframes: anim_data.orientation },
         { channel: "position", keyframes: anim_data.position },
@@ -1473,7 +1474,7 @@
     let reload_attachment_action = new Action("reload_hytale_attachment", {
       name: "Reload Attachment",
       icon: "refresh",
-      condition: () => Collection.selected.length && Modes.edit,
+      condition: () => Collection.selected.length && Modes.edit && isHytaleFormat(),
       click() {
         for (let collection of Collection.selected) {
           reloadAttachment(collection);
@@ -2087,7 +2088,7 @@ For Hytale, the first cube inside a group qualifies as directly connected if it 
   // package.json
   var package_default = {
     name: "hytale-blockbench-plugin",
-    version: "0.8.3",
+    version: "0.8.4",
     description: "Create models and animations for Hytale",
     main: "src/plugin.ts",
     type: "module",

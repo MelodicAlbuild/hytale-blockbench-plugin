@@ -48,6 +48,7 @@ export function parseAnimationFile(file: Filesystem.FileResult, content: IBlocky
 
 		let ba = new BoneAnimator(uuid, animation, group_name);
 		animation.animators[uuid] = ba;
+		ba.group = group;
 
 		//Channels
 		const anim_channels = [
