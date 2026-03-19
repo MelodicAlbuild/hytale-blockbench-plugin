@@ -188,21 +188,23 @@ export function setupAnimation() {
         
         return original_display_scale.call(this, array, multiplier);
     }
-    BoneAnimator.prototype.displayRotation = function displayRotation(array, multiplier = 1) {
-        if (isHytaleFormat() && array) {
-		    let bone = this.group.scene_object;
-			let euler = Reusable.euler1.set(
-				Math.degToRad(array[0]) * multiplier,
-				Math.degToRad(array[1]) * multiplier,
-				Math.degToRad(array[2]) * multiplier,
-				bone.rotation.order
-			)
-			let q2 = Reusable.quat2.setFromEuler(euler);
-			bone.quaternion.multiply(q2);
-			return this;
+    if (Blockbench.isOlderThan('5.1.0-beta.4')) {
+        BoneAnimator.prototype.displayRotation = function displayRotation(array, multiplier = 1) {
+            if (isHytaleFormat() && array) {
+                let bone = this.group.scene_object;
+                let euler = Reusable.euler1.set(
+                    Math.degToRad(array[0]) * multiplier,
+                    Math.degToRad(array[1]) * multiplier,
+                    Math.degToRad(array[2]) * multiplier,
+                    bone.rotation.order
+                )
+                let q2 = Reusable.quat2.setFromEuler(euler);
+                bone.quaternion.multiply(q2);
+                return this;
+            }
+            
+            return original_display_rotation.call(this, array, multiplier);
         }
-        
-        return original_display_rotation.call(this, array, multiplier);
     }
     Animator.showDefaultPose = function(reduced_updates, ...args) {
         original_show_default_pose(reduced_updates, ...args);
@@ -215,7 +217,9 @@ export function setupAnimation() {
     track({
         delete() {
             BoneAnimator.prototype.displayScale = original_display_scale;
-            BoneAnimator.prototype.displayRotation = original_display_rotation;
+            if (Blockbench.isOlderThan('5.1.0-beta.4')) {
+                BoneAnimator.prototype.displayRotation = original_display_rotation;
+            }
             Animator.showDefaultPose = original_show_default_pose;
         }
     })
