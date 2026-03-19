@@ -126,6 +126,7 @@ export function setupAttachments() {
 	track(import_as_attachment);
 	let toolbar = Panels.collections.toolbars[0];
 	toolbar.add(import_as_attachment);
+	MenuBar.menus.file.addAction(import_as_attachment, 'import');
 
 	function reloadAttachment(collection: Collection) {
 		for (let child of collection.getChildren()) {
